@@ -29,34 +29,49 @@ was just really plain and bland.
 
 ### read file and create source data
 change source file to array of sentences, dot seperated array of strings
+(there's still extra space and comma exist, but seems doesn't matter)
 
 ```
-I Love their falafel sandwiches, go early there is always line at lunchtime during the week, but it goes pretty quick.
-I've also had the gyros sandwich, which I honestly have only had once.
-Like I said previously, the falafel sandwich is just too good.
-What's different about Falafel Drive-In's gyros is that the meat is cubed--not sliced.
-I also like the seasoning used for the gyros meat.
-Falafel's Drive-In is one popular place--its menu is a cross between Middle East-inspired street food and American classics (hot dogs and the like).
-The food itself was fine.
-We ordered one of the specials, a large falafel sandwich and banana shake, a large side of fries, and then a falafel salad.
-The falafel itself really is great and with the red sauce on the side, it is awesome.
-However, the salad was just really plain and bland.
+[ 'I Love their falafel sandwiches, go early there is always line at lunchtime during the week, but it goes pretty quick',
+  ', I\'ve also had the gyros sandwich, which I honestly have only had once',
+  ' Like I said previously, the falafel sandwich is just too good',
+  ' What\'s different about Falafel Drive-In\'s gyros is that the meat is cubed--not sliced',
+  ' I also like the seasoning used for the gyros meat',
+  ', Falafel\'s Drive-In is one popular place--its menu is a cross between Middle East-inspired street food and American classics (hot dogs and the like)',
+  ', The food itself was fine',
+  ' We ordered one of the specials, a large falafel sandwich and banana shake, a large side of fries, and then a falafel salad',
+  ' The falafel itself really is great and with the red sauce on the side, it is awesome',
+  ' However, the salad was just really plain and bland',
+  '' ]
 ```
 
-### Read source data and Find the most mentioned nouns 
-use node module wordpos getNouns method to get all nouns from each sentence, use stopwords option to exclude centain nouns.
-contat all arrays -> get arry of nouns -> sort the array of nouns -> find which word has been mentioned the most
+### Read source data and get positive reviews 
+use node module wordpos to get all verbs from each sentence, 
+```
+[ [ 'go', 'Love', 'line' ],[ 'sandwich', 'have' ],[ 'sandwich', 'Like' ],[ 'Drive' ],[ 'like' ],[ 'like', 'Drive', 'place', 'Middle', 'cross' ],[ 'fine' ],[ 'sandwich', 'shake', 'side' ],[ 'side', 'sauce' ],[ 'plain' ],[] ]
+```
+contact with positive word dictionary, sort, and find if there the sentence positive, and return positive reviews as below.
+(should extract all verb and adj, but there would be doulble words, cause verb can be adj some time)
+
+```
+[ 'I Love their falafel sandwiches, go early there is always line at lunchtime during the week, but it goes pretty quick',
+  ', I\'ve also had the gyros sandwich, which I honestly have only had once',
+  ' Like I said previously, the falafel sandwich is just too good' ]
+```
+
+### get most mentioned words in positive reviews
+use node module wordpos to get all nouns from each positive review sentence, use stopwords option to exclude centain nouns.
+```
+[ 'Like','Love','at','falafel','falafel','go','good','have','line','lunchtime','quick','sandwich','sandwich','there','week' ]
+```
+Contat.apply all arrays -> sort the array of nouns -> find which word has been mentioned more than once
+(should sore each word and find the most mentioned words)
 
 ```
 [ 'falafel', 'sandwich', ... ]
 ```
 
-### Find the sentences index that contain positive words
-```
-[ 0, 0, 1, 1, 2, ... ]
-```
-
-### pick random sentences qualify
+### pick random sentences qualify to print out
 Find the sentences that contain positive words and the most mentioned nouns, and pick the first qualify one.
 ```
 $ ./rh ~/reviews.txt 2
@@ -67,4 +82,3 @@ I Love their falafel sandwiches, go early there is always line at lunchtime duri
 ### Big O
 Time complexity is O(nlog(n))
 Space complexity is O(log(n))
-
