@@ -33,7 +33,7 @@ really is great and with the red sauce on the side, it is awesome. However, the 
 was just really plain and bland.
 ```
 
-### create souce data
+### read file and create source data
 change source file to array of sentences, dot seperated array of strings
 
 ```
@@ -49,7 +49,10 @@ The falafel itself really is great and with the red sauce on the side, it is awe
 However, the salad was just really plain and bland.
 ```
 
-### Read fuke and Find the most mentioned nouns 
+### Read source data and Find the most mentioned nouns 
+each sentence -> arry of nouns --> array of arrays
+contat all arrays, and sort, then choose the most mentioned one.
+
 falafel,
 falafel sandwich,
 sandwich

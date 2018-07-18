@@ -1,0 +1,22 @@
+{
+  "name": "review-highlights",
+  "version": "1.0.0",
+  "description": "chanllege for poshmark",
+  "main": "rh.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lijun21/Review-Highlights.git"
+  },
+  "author": "lijun wang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lijun21/Review-Highlights/issues"
+  },
+  "homepage": "https://github.com/Lijun21/Review-Highlights#readme",
+  "dependencies": {
+    "wordpos": "^1.1.6"
+  }
+}
