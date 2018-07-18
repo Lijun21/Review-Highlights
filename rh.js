@@ -1,6 +1,6 @@
 const fs = require('fs');
 const WordPOS = require('wordpos');
-const wordpos = new WordPOS({stopwords: ['I', 'it', 'In', 'a']});
+const wordpos = new WordPOS({stopwords: ['I', 'it', 'In', 'a', 's']});
 const positiveWords = require('./positive_words');
 
 const file = process.argv[2];
@@ -9,61 +9,75 @@ const maxReview = process.argv[3];
 //===Read file and Create source data=========================
 const sourceData = fs
 .readFileSync(file, 'utf8')
-.replace(/\r?\n|\r/g, "")
+.replace(/\r?\n|\r/g, " ")
 .split(['.']);
 
-//get one sentence 
-//get all the nouns from one sentence
-//contact the nouns to array, sort
-//get another sentence 
-//repeat
-async function getPopWords () {
-    let arr_of_arr_nouns = await Promise.all(sourceData.map(async (sentence) => {
-        let nouns = await wordpos.getNouns(sentence)
-        return nouns;
-        
+console.log(sourceData);
+
+
+async function getPositiveReviews () {
+    //map each sentence return all verbs 
+    let arr_of_verb_adj = await Promise.all(sourceData.map(async (sentence) => {
+        let nouns = await wordpos.getVerbs(sentence);
+        return (nouns);
     }));
-    //concat arrays in the array and sort the new array
-    return Promise.resolve([].concat.apply([], arr_of_arr_nouns).sort());
+    return Promise.resolve(arr_of_verb_adj);
 }
 
-let popWords = []; 
+let positiveReviews = [];
+let positiveData = [];
 
-//print popular word
-getPopWords().then(nouns => {
-    for (let i = 0; i < nouns.length; i++){
-        if (nouns[i + 1] == nouns[i]){
-            popWords.push(nouns[i]);
-        }
+getPositiveReviews().then(nouns => {
+    console.log(nouns);
+    let tmp = []; 
+    //concat positive word and source word and sort
+    for (let i = 0; i < nouns.length - 1; i++){
+        tmp.push(nouns[i].concat(positiveWords).sort());
     }
-    console.log(popWords[0]);
-})
-
-
-
-function getPositiveReviews (positiveWords){
-    let data = sourceData;
-    let tmp_data = [];
-    let positiveReviews = [];
-    //concat review words and target positive words and then sort
-    for (let i = 0; i < data.length; i++){
-        tmp_data[i] = data[i].replace(/[,\/]/g, "").split(' ').concat(positiveWords).sort();
-    }
-    //loop through array to see if target positive words exits in sentences
-    for (let i = 0; i < tmp_data.length; i++){
-        for (let j = 0; j < tmp_data[i].length; j++){
-            if (tmp_data[i][j + 1] == tmp_data[i][j]){
+    // console.log(tmp);
+    //loop through sorted array, if same, store in tem
+    for (let i = 0; i < tmp.length - 1; i++){
+        for (let j = 0; j < tmp[i].length - 1; j++){
+            if (tmp[i][j + 1] === tmp[i][j]){
+                console.log(tmp[i][j]);
+                console.log(i, j);
                 positiveReviews.push(i);
+                
             }
         }
     }
-    return positiveReviews;
-}
+    console.log(positiveReviews);
 
-positiveReviews = getPositiveReviews(positiveWords);
+    for (let i = 0; i < sourceData.length; i++){
+        for (let j = 0; j < positiveReviews.length; j++){
+            if (i == j){
+                positiveData.push(sourceData[i]);
+            }
+        }
+    }
 
-//print positive and contain popular word sentences
-//...
+    console.log(positiveData);
 
-
-
+    async function getPopWords () {
+        let arr_of_arr_nouns = await Promise.all(positiveData.map(async (sentence) => {
+            let nouns = await wordpos.getNouns(sentence)
+            // console.log(nouns);
+            return nouns;
+        }));
+        //concat arrays in the array and sort the new array
+        return Promise.resolve([].concat.apply([], arr_of_arr_nouns).sort());
+    }
+    
+    let popWords = []; 
+    
+    //print popular word
+    getPopWords().then(nouns => {
+        // console.log(nouns);
+        for (let i = 0; i < nouns.length - 1; i++){
+            if (nouns[i + 1] == nouns[i]){
+                popWords.push(nouns[i]);
+            }
+        }
+        console.log(popWords);
+    })
+})
