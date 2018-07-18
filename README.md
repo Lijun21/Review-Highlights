@@ -64,4 +64,7 @@ falafel
 I Love their falafel sandwiches, go early there is always line at lunchtime during the week, but it goes pretty quick.
 ```
 
+### Big O
+Time complexity is O(nlog(n))
+Space complexity is O(log(n))
 
