@@ -71,7 +71,7 @@ Contat.apply all arrays -> sort the array of nouns -> find which word has been m
 [ 'falafel', 'sandwich', ... ]
 ```
 
-### pick random sentences qualify to print out
+### print out popular words and positive sentences base on max parameter
 Find the sentences that contain positive words and the most mentioned nouns, and pick the first qualify one.
 ```
 $ ./rh ~/reviews.txt 2

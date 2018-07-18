@@ -6,6 +6,11 @@ const positiveWords = require('./positive_words');
 const file = process.argv[2];
 const maxPrint = process.argv[3];
 
+if (!file){
+    console.log('Please add review file path parameter :)');
+    return ;
+}
+
 //===Read file and Create source data===========================================
 const sourceData = fs
 .readFileSync(file, 'utf8')
