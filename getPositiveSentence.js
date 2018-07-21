@@ -4,7 +4,7 @@ const positiveWords = require('./pos_word_dictionary');
 module.exports = function getPositiveSentence(mainWords, sentences){
     //to remove the doubles in mainWords, cause verb can be adj some time
     const dryMainword = dryNounsAdjs(mainWords);
-    console.log(dryMainword);
+
     let helper = [];
     for (let i = 0; i < dryMainword.length; i++){
         helper.push(dryMainword[i].concat(positiveWords).sort());

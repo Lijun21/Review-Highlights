@@ -4,7 +4,6 @@
 This is a project completed for a challege for Poshmark internship. Implemented a simple positive review highlights algorithm in JavaScript. "The Review Highlights feature was built to help consumers quickly discover the core elements, attractions, menu items, or other popular offerings that a business may be known for. The highlights reflect overall trends we see in the words or phrases that Yelpers use in their reviews of the business, which reduces the consumer's task of reading dozens (or even hundreds) of reviews."
 
 ## Tools used
-- [Positive Words](http://www.creativeaffirmations.com/positive-words.html) - Words are a reflection of our thoughts. Used to extract positive reviews.
 - [npm wordpos](https://www.npmjs.com/package/wordpos) - wordpos is a set of fast part-of-speech (POS) utilities for Node.js using fast lookup in the WordNet database.
 
 ## Thought Process
@@ -98,28 +97,31 @@ Sorted positive sentences base on positive value
 ```
 (Cons of this algarithm: scored sentence contains words like 'like' doesn't mean verb like...)
 
-### get most mentioned words in positive reviews
+### score words in positive reviews
 use node module wordpos to get all nouns from each positive review sentence, use stopwords option to exclude centain nouns.
 ```
-[ 'Like','Love','at','falafel','falafel','go','good','have','line','lunchtime','quick','sandwich','sandwich','there','week' ]
+[ 'American','Drive','East','Falafel','Like','Love','Middle','at','banana','classics','cross','falafel','falafel','falafel','falafel','food','fries','go','good','great','large','line','lunchtime','meat','menu','place','quick','red','salad','sandwich','sandwich','sauce','seasoning','shake','side','side','street','then','there','week' ]
 ```
-Contat.apply all arrays -> sort the array of nouns -> find which word has been mentioned more than once
-(should sore each word and find the most mentioned words)
+Contat.apply all arrays -> sort the array of nouns ->  sore the words which get mentioned more than two time as below:
 
 ```
-[ 'falafel', 'sandwich', ... ]
+{ falafel: 4, sandwich: 1, side: 1 }
 ```
 
 ### print out popular words and positive sentences base on max parameter
-Find the sentences that contain positive words and the most mentioned nouns, and pick the first qualify one.
+Base on score to print out reault
 ```
 $ ./rh ~/reviews.txt 2
-falafel 
-I Love their falafel sandwiches, go early there is always line at lunchtime during the week, but it goes pretty quick.
+falafel
+ Like I said previously, the falafel sandwich is just too good
 ```
 
 ### Big O
 Time complexity is O(nlog(n))
 Space complexity is O(log(n))
 
+## To improve 
+- positive words dictionary, the more the better!
+- array.sort ignore words compare like 'sandwich' to 'sanwiches'
+- trim the sentences before print out
 

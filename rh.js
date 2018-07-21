@@ -7,8 +7,6 @@ const getPositiveSentence = require('./getPositiveSentence');
 
 //print out positive popular words and positive reviews base on max print number
 getPositiveReviews().then(result => {
-    console.log(result)
-    
     const maxPrint = process.argv[3];
     const printWord = Math.round(maxPrint / 2);
     const printSentence = maxPrint - printWord;
@@ -39,7 +37,6 @@ async function getPositiveReviews () {
     if (!file) throw new Error('Please add review file path parameter :)');
     //read file and create array of sentences
     const sentences = fs.readFileSync(file, 'utf8').replace(/\r?\n|\r/g, " ").split(['.']);
-    
     //map through each sentence return all verbs and adj as mainWords
     const mainWords = await Promise.all(sentences.map(async (sentence) => {
         try {

@@ -1,12 +1,11 @@
 const WordPOS = require('wordpos');
-const wordpos = new WordPOS({stopwords: ['I', 'it', 'In', 'a' ,'s', 'Like', 'like']});
+const wordpos = new WordPOS({stopwords: ['I', 'it', 'In', 'a' ,'s','one', 'like']});
 
 //====get most mentioned words in positive reviews==================================
 module.exports = async function getPopWords (positiveSentence) {
     let double_arr_nouns = await Promise.all(positiveSentence.map(async (sentence) => {
         try {
             let nouns = await wordpos.getNouns(sentence)
-            // console.log(nouns);
             return nouns;
         }catch(err){
             throw new Error(`rejected in func getPopWords ${err}`)
@@ -14,6 +13,7 @@ module.exports = async function getPopWords (positiveSentence) {
     }));
     //concat arrays in the array and sort the new array
     const popWords = [].concat.apply([], double_arr_nouns).sort();
+    // console.log(popWords);
     sorted_popWord = popWords.map(each => each.toLowerCase()).sort();
 
     //to count pop words amount in each sentence
@@ -23,6 +23,7 @@ module.exports = async function getPopWords (positiveSentence) {
             popCount[sorted_popWord[i]] = (popCount[sorted_popWord[i]] || 0) + 1;
         }
     }
+
     const popWordArray = [];
     for (prop in popCount){
         popWordArray.push([prop, popCount[prop]]);
