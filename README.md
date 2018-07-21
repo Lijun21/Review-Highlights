@@ -29,7 +29,7 @@ was just really plain and bland.
 
 ### read file and create source data
 change source file to array of sentences, dot seperated array of strings
-(there's still extra space and comma exist, but seems doesn't matter)
+(there's still extra space and comma exist, should trim it at the end)
 
 ```
 [ 'I Love their falafel sandwiches, go early there is always line at lunchtime during the week, but it goes pretty quick',
@@ -46,18 +46,57 @@ change source file to array of sentences, dot seperated array of strings
 ```
 
 ### Read source data and get positive reviews 
-use node module wordpos to get all verbs from each sentence, 
+extract all verb and adj from each sentence. (use node module wordpos)
 ```
-[ [ 'go', 'Love', 'line' ],[ 'sandwich', 'have' ],[ 'sandwich', 'Like' ],[ 'Drive' ],[ 'like' ],[ 'like', 'Drive', 'place', 'Middle', 'cross' ],[ 'fine' ],[ 'sandwich', 'shake', 'side' ],[ 'side', 'sauce' ],[ 'plain' ],[] ]
+[ 'Love,go,line,go,early,pretty,quick',
+  'sandwich,have,only',
+  'sandwich,Like,Like,said,just,good',
+  'Drive,different,about,sliced',
+  'like,like,used',
+  'like,Drive,place,cross,Middle,like,one,popular,cross,Middle,East,inspired,American,hot',
+  'fine,fine',
+  'sandwich,shake,side,then,one,ordered,large,side',
+  'side,sauce,side,great,red,on,awesome',
+  'plain,just,plain,bland',
+  ',' ]
 ```
-contact with positive word dictionary, sort, and find if there the sentence positive, and return positive reviews as below.
-(should extract all verb and adj, but there would be doulble words, cause verb can be adj some time)
+dry it cause verb and adj some time 
+```
+[ [ 'Love', 'early', 'go', 'line', 'pretty', 'quick' ],
+  [ 'have', 'only', 'sandwich' ],
+  [ 'Like', 'good', 'just', 'said', 'sandwich' ],
+  [ 'Drive', 'about', 'different', 'sliced' ],
+  [ 'like', 'used' ],
+  [ 'American',
+    'Drive',
+    'East',
+    'Middle',
+    'cross',
+    'hot',
+    'inspired',
+    'like',
+    'one',
+    'place',
+    'popular' ],
+  [ 'fine' ],
+  [ 'large', 'one', 'ordered', 'sandwich', 'shake', 'side', 'then' ],
+  [ 'awesome', 'great', 'on', 'red', 'sauce', 'side' ],
+  [ 'bland', 'just', 'plain' ],
+  [ '' ] ]
+```
+concat with positive word dictionary, sort, and Score each sentence
 
 ```
-[ 'I Love their falafel sandwiches, go early there is always line at lunchtime during the week, but it goes pretty quick',
-  ', I\'ve also had the gyros sandwich, which I honestly have only had once',
-  ' Like I said previously, the falafel sandwich is just too good' ]
+{ '0': 1, '2': 2, '4': 1, '5': 2 }
 ```
+Sorted positive sentences base on positive value
+```
+[ ' Like I said previously, the falafel sandwich is just too good',
+  ', Falafel\'s Drive-In is one popular place--its menu is a cross between Middle East-inspired street food and American classics (hot dogs and the like)',
+  'I Love their falafel sandwiches, go early there is always line at lunchtime during the week, but it goes pretty quick',
+  ' I also like the seasoning used for the gyros meat' ]
+```
+(Cons of this algarithm: scored sentence contains words like 'like' doesn't mean verb like...)
 
 ### get most mentioned words in positive reviews
 use node module wordpos to get all nouns from each positive review sentence, use stopwords option to exclude centain nouns.
@@ -82,3 +121,5 @@ I Love their falafel sandwiches, go early there is always line at lunchtime duri
 ### Big O
 Time complexity is O(nlog(n))
 Space complexity is O(log(n))
+
+
